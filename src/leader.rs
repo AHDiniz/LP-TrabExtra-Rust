@@ -4,6 +4,9 @@
 // 
 // leader.rs: leader algorithm implementation
 
+// Calculating the sse and the groups vector
+//
+// Inputs: the points vector and the limit distance
 pub fn calculate_results(points: Vec<Vec<f64>>, limit: f64) -> (f64, Vec<Vec<usize>>)
 {
 	let mut groups: Vec<Vec<usize>> = vec![vec![1]];
@@ -41,6 +44,7 @@ pub fn calculate_results(points: Vec<Vec<f64>>, limit: f64) -> (f64, Vec<Vec<usi
 	return (sse, groups);
 }
 
+// Calculating the distance between two given points:
 fn point_distance(a: &Vec<f64>, b: &Vec<f64>) -> f64
 {
 	assert!(a.len() == b.len());
@@ -57,6 +61,8 @@ fn point_distance(a: &Vec<f64>, b: &Vec<f64>) -> f64
 	return dist;
 }
 
+// Calculating the center of mass of a certain point group
+// given the group indeces and the points vector:
 fn center_of_mass(points: &Vec<Vec<f64>>, group: &Vec<usize>) -> Vec<f64>
 {
 	let mut center: Vec<f64> = vec![];
@@ -84,6 +90,7 @@ fn center_of_mass(points: &Vec<Vec<f64>>, group: &Vec<usize>) -> Vec<f64>
 	return center;
 }
 
+// Calculating the sse off a given group:
 fn calculate_sse(points: &Vec<Vec<f64>>, groups: &Vec<Vec<usize>>) -> f64
 {
 	let mut sse: f64 = 0.0;

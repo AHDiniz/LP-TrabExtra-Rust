@@ -17,8 +17,20 @@ fn main()
 	let e = String::from("entrada.txt");
 	let d = String::from("distancia.txt");
 
-	let mut pointsFile = if length == 1 { &e } else { &args[1] };
-	let mut distFile = if length == 1 { &d } else { &args[2] };
+	let points_file = if length == 1 { &e } else { &args[1] };
+	let dist_file = if length == 1 { &d } else { &args[2] };
 
-	println!("{} {}", pointsFile, distFile);
+	let (points, limit) = reader::parse_input(points_file, dist_file);
+	let (sse, groups) = leader::calculate_results(points, limit);
+
+	println!("sse = {}", sse);
+
+	for point in groups
+	{
+		for num in point
+		{
+			print!("{} ", num);
+		}
+		print!("\n");
+	}
 }
