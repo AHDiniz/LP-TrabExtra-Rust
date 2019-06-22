@@ -4,40 +4,40 @@
 // 
 // reader.rs: file I/O and data parsing
 
-use std::fs;
+use std::fs::File;
+use std::io::{BufRead, BufReader};
 
 // Getting the filepaths to the input files and parsing their data:
 pub fn parse_input(points_file: &String, dist_file: &String) -> (Vec<Vec<f64>>, f64)
 {
-	let points_str: String = fs::read_to_string(points_file).expect("Algo de errado aconteceu ao ler o arquivo de pontos.\n");
-	let dist_str: String =
-		fs::read_to_string(dist_file).expect("Algo de errado aconteceu ao ler o arquivo da distancia.\n");
-
-	let dist: f64 = dist_str.parse().unwrap();
-
-	let mut points: Vec<Vec<f64>> = vec![vec![]];
-
-	let lines = points_str.split("\n");
-	let lines_vec: Vec<&str> = lines.collect();
-
-	let length: usize = lines_vec.len();
-	let mut i: usize = 0;
-	while i < length
+	// Reading the distance file:
+	let d_file = File::open(dist_file).unwrap();
+	let d_reader = BufReader::new(d_file);
+	let mut dist: f64 = 0.0;
+	for (_index, line) in d_reader.lines().enumerate()
 	{
-		let words = lines_vec[i].split(" ");
-		let words_vec: Vec<&str> = words.collect();
+		let l: String = line.unwrap();
+		dist = l.trim().parse().unwrap();
+	}
 
-		let w_length: usize = words_vec.len();
+	// Reading the points file:
+	let p_file = File::open(points_file).unwrap();
+	let p_reader = BufReader::new(p_file);
+	let mut points: Vec<Vec<f64>> = vec![];
+	for (_index, line) in p_reader.lines().enumerate()
+	{
+		let l: String = line.unwrap();
+		let words: Vec<&str> = l.split(" ").collect();
+		let length: usize = words.len();
+		let mut point: Vec<f64> = vec![];
 		let mut j: usize = 0;
-		while j > w_length
+		while j < length
 		{
-			let point: f64 = words_vec[i].parse().unwrap();
-			points[i].push(point);
-
+			let number: f64 = words[j].trim().parse().unwrap();
+			point.push(number);
 			j += 1;
 		}
-
-		i += 1;
+		points.push(point);
 	}
 
 	return (points, dist);

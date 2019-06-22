@@ -9,9 +9,10 @@
 // Inputs: the points vector and the limit distance
 pub fn calculate_results(points: Vec<Vec<f64>>, limit: f64) -> (f64, Vec<Vec<usize>>)
 {
-	let mut groups: Vec<Vec<usize>> = vec![vec![1]];
-	let length = points.len();
+	let mut groups: Vec<Vec<usize>> = vec![vec![]];
+	groups[0].push(1);
 
+	let length = points.len();
 	let mut i: usize = 1;
 	while i < length
 	{
@@ -23,17 +24,17 @@ pub fn calculate_results(points: Vec<Vec<f64>>, limit: f64) -> (f64, Vec<Vec<usi
 		{
 			if point_distance(&points[groups[j][0] - 1], &points[i]) <= limit
 			{
-				if !groups[j].contains(&(i + 1))
-				{
-					groups[j].push(i + 1);
-				}
+				groups[j].push(i + 1);
 				leader = false;
-			}
-			if leader
-			{
-				groups.push(vec![i + 1]);
+				println!("{:?}", groups);
+				break;
 			}
 			j += 1;
+		}
+		if leader
+		{
+			groups.push(vec![i + 1]);
+			println!("{:?}", groups);
 		}
 
 		i += 1;
@@ -54,9 +55,11 @@ fn point_distance(a: &Vec<f64>, b: &Vec<f64>) -> f64
 	while i < a.len()
 	{
 		let x: f64 = (a[i] - b[i]) * (a[i] - b[i]);
-		dist += x.sqrt();
+		dist += x;
 		i += 1;
 	}
+
+	dist = dist.sqrt();
 	
 	return dist;
 }
