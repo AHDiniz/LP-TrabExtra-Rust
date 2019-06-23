@@ -26,7 +26,6 @@ pub fn calculate_results(points: Vec<Vec<f64>>, limit: f64) -> (f64, Vec<Vec<usi
 			{
 				groups[j].push(i + 1);
 				leader = false;
-				println!("{:?}", groups);
 				break;
 			}
 			j += 1;
@@ -34,7 +33,6 @@ pub fn calculate_results(points: Vec<Vec<f64>>, limit: f64) -> (f64, Vec<Vec<usi
 		if leader
 		{
 			groups.push(vec![i + 1]);
-			println!("{:?}", groups);
 		}
 
 		i += 1;

@@ -24,6 +24,5 @@ fn main()
 
 	let (sse, groups) = leader::calculate_results(points, limit);
 
-	println!("{:?}", groups);
-	println!("{:?}", sse);
+	reader::print_results(sse, groups);
 }
